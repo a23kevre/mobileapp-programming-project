@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -26,14 +27,14 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
     private WebView myWebView;
     public void showExternalWebPage(){
         // TODO: Add your code for showing external web page here
-        myWebView.loadUrl("https://his.se");
+        myWebView.loadUrl("file:///android_res/layout/activity_main.xml");
     }
 
     public void showInternalWebPage(){
         // TODO: Add your code for showing internal web page here
-        myWebView.loadUrl("file:///android_asset/html/WebView.html");
+        myWebView.loadUrl("file:///android_asset/about.html");
     }
-
+    private RecyclerView view;
     private Gson gson;
     private final String JSON_URL = "https://mobprog.webug.se/json-api?login=a23kevre";
     ArrayList<Mountain> items = new ArrayList<>();
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
             }
         });
 
-        RecyclerView view = findViewById(R.id.recycler_view);
+        view = findViewById(R.id.recycler_view);
         view.setLayoutManager(new LinearLayoutManager(this));
         view.setAdapter(adapter);
 
@@ -105,12 +106,16 @@ public class MainActivity extends AppCompatActivity implements JsonTask.JsonTask
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_external_web) {
             showExternalWebPage();
+            myWebView.setVisibility(View. GONE);
+            view.setVisibility(View.VISIBLE);
             Log.d("==>","Will display external web page");
             return true;
         }
 
         if (id == R.id.action_internal_web) {
             showInternalWebPage();
+            myWebView.setVisibility(View. VISIBLE);
+            view.setVisibility(View.GONE);
             Log.d("==>","Will display internal web page");
             return true;
         }
